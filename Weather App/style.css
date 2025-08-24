@@ -1,0 +1,116 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f2f6fc;
+}
+
+.navbar-brand{
+    font-weight: bold;
+}
+
+.card {
+  border-radius: 12px;
+}
+
+.card-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+h2, h3, h4 {
+  font-weight: 600;
+}
+
+.tips-box {
+  background-color: #fff8e1;
+  border-left: 5px solid #ffc107;
+  border-radius: 8px;
+}
+
+.tips-box ul {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.tips-box li {
+  margin-bottom: 0.5rem;
+}
+.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.btn{
+    background-color: rgba(128, 128, 128, 0.664);
+}
+
+.dark-theme .navbar {
+  background-color: rgba(var(--bs-primary-rgb),var(--bs-bg-opacity))!important;
+}
+
+.dark-theme .card {
+  background-color: #1f1f1f;
+  color: #e0e0e0;
+  border-color: #333;
+}
+
+.dark-theme .card-header.bg-info {
+  background-color: #17a2b8 !important;
+  color: white;
+}
+
+.dark-theme .card-header.bg-warning {
+  background-color: #ffc107 !important;
+  color: black;
+}
+
+.dark-theme .card-header.bg-success {
+  background-color: #28a745 !important;
+  color: white;
+}
+
+.dark-theme .card-header.bg-primary {
+  background-color: #007bff !important;
+  color: white;
+}
+
+.dark-theme .table {
+  background-color: #1f1f1f;
+  color: #e0e0e0;
+}
+
+.dark-theme .table thead {
+  background-color: #343a40;
+  color: white;
+}
+
+.dark-theme .btn {
+  border-color: #f3ececb9;
+  color: rgb(255, 254, 254);
+}
+.dark-theme .btn:hover{
+    color: black;
+}
+
+.dark-theme .form-control {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+.dark-theme .form-control {
+  background-color: #f5f3f3;
+  color: rgb(20, 20, 20);
+}
+
+.dark-theme .tips-box {
+  background-color: #fff8e1;
+  border-left: 5px solid #ffc107;
+  border-radius: 8px;
+  color: #121212;
+}
+
+#suggestions {
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1050; 
+}

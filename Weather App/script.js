@@ -1,4 +1,4 @@
-const apiKey = "8d27d345ca5295d94de9d6ec558b578f"; // Replace with your actual API key
+const apiKey = "8d27d345ca5295d94de9d6ec558b578f"; 
 const weatherForm = document.getElementById("weatherForm");
 const cityInput = document.getElementById("cityInput");
 const travelTipsBox = document.getElementById("travelTipsBox");
@@ -14,7 +14,7 @@ weatherForm.addEventListener("submit", function (e) {
 async function getWeatherData(city) {
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city + ",IN")}&appid=${apiKey}&units=metric`
+      `/.netlify/functions/getWeather?city=${encodeURIComponent(city + ",IN")}`
     );
     if (!response.ok) throw new Error("City not found");
 
@@ -198,3 +198,4 @@ document.addEventListener("click", (e) => {
     suggestionsBox.innerHTML = "";
   }
 });
+

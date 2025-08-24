@@ -1,7 +1,7 @@
 [build]
   base = "Weather App"
-  publish = "Weather App/pages"
-  functions = "Weather App/netlify/functions"
+  publish = "pages"
+  functions = "netlify/functions"
 
 [dev]
   autoLaunch = true

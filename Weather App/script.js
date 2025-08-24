@@ -1,8 +1,11 @@
-const apiKey = "8d27d345ca5295d94de9d6ec558b578f"; 
 const weatherForm = document.getElementById("weatherForm");
 const cityInput = document.getElementById("cityInput");
 const travelTipsBox = document.getElementById("travelTipsBox");
+const suggestionsBox = document.getElementById("suggestions");
 
+let debounceTimeout;
+
+// 🌤️ Fetch Weather Data
 weatherForm.addEventListener("submit", function (e) {
   e.preventDefault();
   const city = cityInput.value.trim();
@@ -67,35 +70,24 @@ function clearFields() {
   document.getElementById("visibility").innerText = "--";
 }
 
+// 🚀 Travel Tips
 function showTravelTips(temp, weather, city) {
   const tips = [];
+  const lowerWeather = weather.toLowerCase();
 
   // 🌡️ General Temperature Tips
-  if (temp >= 40) {
-    tips.push("⚠️ It's extremely hot. Avoid traveling during midday and stay hydrated.");
-  } else if (temp >= 30) {
-    tips.push("🌞 Wear light cotton clothes and drink plenty of water.");
-  } else if (temp >= 20 && temp < 30) {
-    tips.push("😊 Perfect weather for sightseeing and outdoor activities.");
-  } else if (temp >= 10 && temp < 20) {
-    tips.push("🧥 It might get chilly. Carry a light jacket.");
-  } else if (temp < 10) {
-    tips.push("❄️ It's cold. Wear warm clothes and avoid early morning or late-night travel.");
-  }
+  if (temp >= 40) tips.push("⚠️ It's extremely hot. Avoid traveling during midday and stay hydrated.");
+  else if (temp >= 30) tips.push("🌞 Wear light cotton clothes and drink plenty of water.");
+  else if (temp >= 20 && temp < 30) tips.push("😊 Perfect weather for sightseeing and outdoor activities.");
+  else if (temp >= 10 && temp < 20) tips.push("🧥 It might get chilly. Carry a light jacket.");
+  else if (temp < 10) tips.push("❄️ It's cold. Wear warm clothes and avoid early morning or late-night travel.");
 
   // 🌦️ General Weather Tips
-  const lowerWeather = weather.toLowerCase();
-  if (lowerWeather.includes("rain")) {
-    tips.push("☔ It's raining. Don't forget your umbrella or raincoat.");
-  } else if (lowerWeather.includes("clear")) {
-    tips.push("😎 Sunny and clear. Use sunscreen and stay hydrated.");
-  } else if (lowerWeather.includes("cloud")) {
-    tips.push("🌥️ Cloudy weather. Good for long walks and less sunburn risk.");
-  } else if (lowerWeather.includes("snow")) {
-    tips.push("❄️ Snowy conditions. Drive safely and wear insulated boots.");
-  } else if (lowerWeather.includes("storm") || lowerWeather.includes("thunder")) {
-    tips.push("⚡ Storm expected. Avoid travel if possible and stay indoors.");
-  }
+  if (lowerWeather.includes("rain")) tips.push("☔ It's raining. Don't forget your umbrella or raincoat.");
+  else if (lowerWeather.includes("clear")) tips.push("😎 Sunny and clear. Use sunscreen and stay hydrated.");
+  else if (lowerWeather.includes("cloud")) tips.push("🌥️ Cloudy weather. Good for long walks and less sunburn risk.");
+  else if (lowerWeather.includes("snow")) tips.push("❄️ Snowy conditions. Drive safely and wear insulated boots.");
+  else if (lowerWeather.includes("storm") || lowerWeather.includes("thunder")) tips.push("⚡ Storm expected. Avoid travel if possible and stay indoors.");
 
   // 🏞️ Region-specific Tips
   const citySpecific = getCitySpecificTips(city, weather, temp);
@@ -116,29 +108,18 @@ function getCitySpecificTips(city, weather, temp) {
 
   if (cityLower === "ladakh") {
     cityTips.push("🏔️ Altitude is high — stay hydrated and avoid overexertion.");
-    if (temp < 15) {
-      cityTips.push("🧤 Pack thermal wear and gloves for cold mornings and nights.");
-    }
+    if (temp < 15) cityTips.push("🧤 Pack thermal wear and gloves for cold mornings and nights.");
   } else if (cityLower === "goa") {
     cityTips.push("🏖️ Perfect for beach holidays! Carry sunscreen and swimwear.");
-    if (lowerWeather.includes("rain")) {
-      cityTips.push("🌧️ It may be humid or rainy — pack a waterproof bag.");
-    }
+    if (lowerWeather.includes("rain")) cityTips.push("🌧️ It may be humid or rainy — pack a waterproof bag.");
   } else if (cityLower === "delhi") {
-    if (temp > 38) {
-      cityTips.push("🔥 Avoid outdoor travel during peak afternoon in Delhi’s summer.");
-    } else if (temp < 10) {
-      cityTips.push("🧣 Wear layers — Delhi winters can be bone-chilling at night.");
-    }
+    if (temp > 38) cityTips.push("🔥 Avoid outdoor travel during peak afternoon in Delhi’s summer.");
+    else if (temp < 10) cityTips.push("🧣 Wear layers — Delhi winters can be bone-chilling at night.");
   } else if (cityLower === "mumbai") {
     cityTips.push("🌊 Coastal city — humidity is high, dress light.");
-    if (lowerWeather.includes("rain")) {
-      cityTips.push("🌧️ Heavy monsoons possible — use waterproof shoes.");
-    }
+    if (lowerWeather.includes("rain")) cityTips.push("🌧️ Heavy monsoons possible — use waterproof shoes.");
   } else if (cityLower === "kolkata") {
-    if (temp > 32) {
-      cityTips.push("💦 Kolkata can get sticky hot — use wet wipes and stay cool.");
-    }
+    if (temp > 32) cityTips.push("💦 Kolkata can get sticky hot — use wet wipes and stay cool.");
   } else if (cityLower === "jaipur") {
     cityTips.push("🏜️ Carry a hat and water — Jaipur sun can be intense.");
   }
@@ -146,10 +127,7 @@ function getCitySpecificTips(city, weather, temp) {
   return cityTips;
 }
 
-const suggestionsBox = document.getElementById("suggestions");
-
-let debounceTimeout;
-
+// 🔍 City Suggestions with Debounce
 cityInput.addEventListener("input", () => {
   clearTimeout(debounceTimeout);
   const query = cityInput.value.trim();
@@ -167,7 +145,7 @@ cityInput.addEventListener("input", () => {
 async function fetchCitySuggestions(query) {
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${apiKey}`
+      `/.netlify/functions/getCities?query=${encodeURIComponent(query)}`
     );
     const cities = await response.json();
 
@@ -198,4 +176,3 @@ document.addEventListener("click", (e) => {
     suggestionsBox.innerHTML = "";
   }
 });
-
